@@ -1,5 +1,10 @@
 # Chapp
 Chat app
+Basic IRC chat app, it shouldn't crash with wrong address/port, or wrong "user + pw"-line.
+With more time I would have kept authentication state serverside, since now there is severe vulnerabilities in that the client itself makes
+the user authenticate itself.. which should be the other way around.
+Net and Readline modules was new for me so spent alot of time getting the hang of it, which was valuable.
+
 
 ## Start server with node server/server.js
 ![image](https://user-images.githubusercontent.com/83879466/191219716-724fe9c4-0361-4961-ac84-89df2852b77e.png)
