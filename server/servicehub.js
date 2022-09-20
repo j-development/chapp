@@ -14,7 +14,7 @@ const servicehub = (payload, client, clients) => {
 
   let res = {};
   if (command.toUpperCase() === 'CHAT') {
-    chatHandler(body, client, clients);
+    chatHandler(body[0], body, client, clients);
     return;
   }
   res = serviceActions(command.toUpperCase(), client, body);
@@ -38,10 +38,11 @@ const serviceActions = (command, client, body) => {
   }
 };
 
-const chatHandler = (body, client, clients) => {
+const chatHandler = (username, body, client, clients) => {
+  body.shift();
   clients.forEach((c) => {
     if (client !== c) {
-      c.write(JSON.stringify(body.join(' ')));
+      c.write(JSON.stringify(username + ': ' + body.join(' ')));
     }
   });
 };

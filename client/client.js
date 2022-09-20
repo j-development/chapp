@@ -8,6 +8,7 @@ const RL = readline.createInterface({ input, output });
 
 let client;
 let reconnectObj;
+let authUser;
 
 const responseHandler = (data) => {
   const obj = JSON.parse(data);
@@ -53,7 +54,7 @@ async function tryLogin(username, password) {
           client = net.createConnection(reconnectObj);
           reject(false);
         } else {
-          resolve(true);
+          resolve(username);
         }
       });
     });
@@ -75,10 +76,11 @@ const loginPrompts = () => {
   RL.question('Input "Username Password"\n', async (loginline) => {
     let [username, password, ...trash] = loginline.split(' ');
     tryLogin(username, password)
-      .then(() => {
+      .then((username) => {
         client.on('data', (data) => {
           console.log(JSON.parse(data));
         });
+        authUser = username;
         RL.resume();
       })
       .catch((err) => {
@@ -92,45 +94,5 @@ connectionPrompts();
 loginPrompts();
 
 RL.on('line', (input) => {
-  client.write('CHAT ' + input);
+  client.write(`CHAT ${authUser} ${input}`);
 });
-
-// client.on('data', (data) => {
-//   console.log(`Response: ${data}`);
-// });
-
-// client.on('error', (err) => {
-//   console.log(err.message);
-// });
-
-// rl.on('line', (input) => {
-//   client.write(input);
-
-// });
-
-// RL.pause();
-
-// RL.question('Input server address \n', (host) => {
-//   if (host === 100) {
-//     console.log('Connection success');
-//     RL.setPrompt('Input your username \n');
-//     RL.prompt();
-//     RL.on('line', (username) => {
-//       if (username === 'johan') {
-//         console.log(`success, name unique`);
-//         RL.return;
-//       }
-//       console.log('Try again');
-//     });
-//   } else {
-//     console.log(`${host} is not found, try another`);
-//   }
-// });
-
-// RL.on('line', (input) => {
-//   console.log(input);
-// });
-
-// RL.resume();
-
-// tryConnection(0, 0);
