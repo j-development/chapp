@@ -21,4 +21,5 @@ Net and Readline modules was new for me so spent alot of time getting the hang o
 ![image](https://user-images.githubusercontent.com/83879466/191221237-340a3cc4-5fa2-4aac-9602-050e9d83bdd9.png)
 
 # Results
+Writing on one client, send out to all other connected clients.
 ![image](https://user-images.githubusercontent.com/83879466/191221863-fe595adb-7ff3-499c-8a6d-4136ae4afc16.png)
