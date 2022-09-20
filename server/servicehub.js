@@ -1,10 +1,10 @@
 const userDB = [
   {
-    username: 'johan',
+    username: 'foo',
     password: '123',
   },
   {
-    username: 'ekdahl',
+    username: 'bar',
     password: '321',
   },
 ];
