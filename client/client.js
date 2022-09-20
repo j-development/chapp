@@ -8,6 +8,7 @@ const RL = readline.createInterface({ input, output });
 
 let client;
 let reconnectObj;
+let authUser;
 
 const responseHandler = (data) => {
   const obj = JSON.parse(data);
@@ -53,7 +54,7 @@ async function tryLogin(username, password) {
           client = net.createConnection(reconnectObj);
           reject(false);
         } else {
-          resolve(true);
+          resolve(username);
         }
       });
     });
@@ -75,10 +76,11 @@ const loginPrompts = () => {
   RL.question('Input "Username Password"\n', async (loginline) => {
     let [username, password, ...trash] = loginline.split(' ');
     tryLogin(username, password)
-      .then(() => {
+      .then((username) => {
         client.on('data', (data) => {
           console.log(JSON.parse(data));
         });
+        authUser = username;
         RL.resume();
       })
       .catch((err) => {
@@ -92,7 +94,7 @@ connectionPrompts();
 loginPrompts();
 
 RL.on('line', (input) => {
-  client.write('CHAT ' + input);
+  client.write(`CHAT ${authUser} ${input}`);
 });
 
 // client.on('data', (data) => {
